@@ -60,8 +60,14 @@ export class HeroService {
     return this.http.post<Hero>(this.heroesUrl, hero, this.httpOptions).pipe(
       tap((newHero: Hero) => this.log(`added hero w/ id=${newHero.id}`)),
       catchError(this.handlerError<Hero>('added hero'))
-    )
-
+    );
+  }
+  deleteHero(id: number): Observable<Hero> {
+    const url = `{${this.heroesUrl}/${id}}`;
+    return this.http.delete<Hero>(url, this.httpOptions).pipe(
+      tap(_=>this.log(`deleled hero id=${id}`)),
+      catchError(this.handlerError<Hero>('delete hero'))
+    );
   }
 
 
